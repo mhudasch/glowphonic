@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - .:/workspace:cached
+      - ~/.gitconfig:/home/vscode/.gitconfig:ro
+      - ~/.ssh:/home/vscode/.ssh:ro
+      - ~/.kube:/home/vscode/.kube:ro
+    command: sleep infinity
+    environment:
+      - KUBECONFIG=/home/vscode/.kube/config
+      # WSL2 specific environment variables
+      - TERM=xterm-256color
+      - WSL_DISTRO_NAME=${WSL_DISTRO_NAME:-ubuntu}
+    network_mode: host  # Easier access to local Kubernetes cluster
+    user: vscode
+    cap_add:
+      - SYS_PTRACE
+    security_opt:
+      - seccomp:unconfined
+    # WSL2 performance optimization: use native overlay2 storage driver
+    # which performs better in WSL2 than the default
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+          cpus: '2'

@@ -1,0 +1,39 @@
+version: v1
+workspace:
+  auto: true
+  ide: vscode
+  src: .
+  # Primary Kubernetes provider
+  provider: kubernetes
+  kubernetes:
+    context: docker-desktop  # For Docker Desktop Kubernetes
+    namespace: zig-dev
+    overrideCommand: true
+    createNamespace: true
+    resources:
+      requests:
+        memory: 2Gi
+        cpu: "1"
+      limits:
+        memory: 4Gi
+        cpu: "2"
+  # Fallback to Docker, when Kubernetes is not available
+  fallbackProvider: docker
+  container:
+    name: glowphonic-zig
+    dockerfile: .devcontainer/Dockerfile
+    devcontainer: .devcontainer/devcontainer.json
+    compose: docker-compose.yml
+    service: dev
+  volumes:
+    - ~/.gitconfig:/home/vscode/.gitconfig:ro
+    - ~/.ssh:/home/vscode/.ssh:ro
+    - ~/.kube:/home/vscode/.kube:ro
+  options:
+    # Environment variables for both providers
+    env:
+      - name: KUBECONFIG
+        value: /home/vscode/.kube/config
+      # WSL2 specific setting to ensure proper terminal
+      - name: TERM
+        value: xterm-256color

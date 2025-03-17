@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: glowphonic-zig-dev
+  namespace: mhudasch-glowphonic
+  labels:
+    app: glowphonic-zig
+spec:
+  containers:
+  - name: dev
+    image: glowphonic-zig-dev:latest
+    imagePullPolicy: Never  # Verwendet lokales Image
+    command: ["sleep", "infinity"]
+    resources:
+      requests:
+        memory: "1Gi"
+        cpu: "500m"
+      limits:
+        memory: "2Gi"
+        cpu: "1"
+    volumeMounts:
+    - name: workspace
+      mountPath: /workspace
+    - name: git-config
+      mountPath: /home/vscode/.gitconfig
+      readOnly: true
+    - name: ssh
+      mountPath: /home/vscode/.ssh
+      readOnly: true
+    securityContext:
+      privileged: true  # Für Debugging-Tools
+  volumes:
+  - name: workspace
+    hostPath:
+      path: "C:/Users/Martin/.code/00_Home/2025/glowphonic"  # Muss mit absolutem Pfad ersetzt werden
+  - name: git-config
+    hostPath:
+      path: "C:/Users/Martin/.gitconfig"  # Windows-Pfad anpassen
+  - name: ssh
+    hostPath:
+      path: "C:/Users/Martin/.ssh"  # Windows-Pfad anpassen
