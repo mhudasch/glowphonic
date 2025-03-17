@@ -120,6 +120,15 @@ else
     echo "Namespace '${NAMESPACE}' already exists."
 fi
 
+# Check if pod already exists and delete it if needed
+if kubectl get pod ${POD_NAME} -n ${NAMESPACE} &> /dev/null; then
+    echo "Pod ${POD_NAME} already exists, deleting it first..."
+    kubectl delete pod ${POD_NAME} -n ${NAMESPACE}
+    # Wait for pod to be fully deleted
+    echo "Waiting for pod to be fully deleted..."
+    kubectl wait --for=delete pod/${POD_NAME} -n ${NAMESPACE} --timeout=60s 2>/dev/null || true
+fi
+
 # Apply Kubernetes configuration
 echo "Deploying to Kubernetes..."
 kubectl apply -f kubernetes-pod-wsl.yaml

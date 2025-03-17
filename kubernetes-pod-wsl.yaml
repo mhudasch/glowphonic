@@ -4,12 +4,12 @@ metadata:
   name: glowphonic-zig-dev
   namespace: mhudasch-glowphonic
   labels:
-    app: glowphonic-zig
+    app: glowphonic
 spec:
   containers:
   - name: dev
     image: glowphonic-zig-dev:latest
-    imagePullPolicy: Never
+    imagePullPolicy: Never  # Use local image
     command: ["sleep", "infinity"]
     resources:
       requests:
@@ -28,7 +28,7 @@ spec:
       mountPath: /home/vscode/.ssh
       readOnly: true
     securityContext:
-      privileged: true
+      privileged: true  # For debugging tools
   volumes:
   - name: workspace
     hostPath:
