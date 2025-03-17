@@ -32,10 +32,10 @@ spec:
   volumes:
   - name: workspace
     hostPath:
-      path: "REPLACE_WITH_ABSOLUTE_PATH"
+      path: "/mnt/c/Users/Martin/.code/00_Home/2025/glowphonic"
   - name: git-config
     hostPath:
-      path: "C:/Users/YOURUSER/.gitconfig"
+      path: "/home/martin/.gitconfig"
   - name: ssh
     hostPath:
-      path: "C:/Users/YOURUSER/.ssh"
+      path: "/home/martin/.ssh"

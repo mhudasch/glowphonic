@@ -5,6 +5,7 @@ services:
     build:
       context: .
       dockerfile: .devcontainer/Dockerfile
+    container_name: glowphonic-zig-dev
     volumes:
       - .:/workspace:cached
       - ~/.gitconfig:/home/vscode/.gitconfig:ro

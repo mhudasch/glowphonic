@@ -7,7 +7,7 @@ workspace:
   provider: kubernetes
   kubernetes:
     context: docker-desktop  # For Docker Desktop Kubernetes
-    namespace: zig-dev
+    namespace: mhudasch-glowphonic
     overrideCommand: true
     createNamespace: true
     resources:
@@ -20,7 +20,7 @@ workspace:
   # Fallback to Docker, when Kubernetes is not available
   fallbackProvider: docker
   container:
-    name: glowphonic-zig
+    name: glowphonic-zig-dev
     dockerfile: .devcontainer/Dockerfile
     devcontainer: .devcontainer/devcontainer.json
     compose: docker-compose.yml
