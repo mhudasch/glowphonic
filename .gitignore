@@ -6,6 +6,10 @@ zig-out/
 /release/
 /debug/
 
+.devcontainer/*
+!.devcontainer/devcontainer.json
+!.devcontainer/Dockerfile
+
 .DS_Store
 Thumbs.db
 

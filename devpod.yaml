@@ -3,37 +3,19 @@ workspace:
   auto: true
   ide: vscode
   src: .
-  # Primary Kubernetes provider
   provider: kubernetes
   kubernetes:
-    context: docker-desktop  # For Docker Desktop Kubernetes
+    context: kubernetes-admin@kubernetes
     namespace: mhudasch-glowphonic
-    overrideCommand: true
-    createNamespace: true
-    resources:
-      requests:
-        memory: 2Gi
-        cpu: "1"
-      limits:
-        memory: 4Gi
-        cpu: "2"
-  # Fallback to Docker, when Kubernetes is not available
-  fallbackProvider: docker
-  container:
-    name: glowphonic-zig-dev
-    dockerfile: .devcontainer/Dockerfile
-    devcontainer: .devcontainer/devcontainer.json
-    compose: docker-compose.yml
-    service: dev
+    pod: glowphonic-zig-dev # Use your existing pod directly
+    container: dev
+    overrideCommand: false # Don't override the container's command
+    createNamespace: false
+    injectDevPodEnvironment: false # Don't inject DevPod environment
   volumes:
     - ~/.gitconfig:/home/vscode/.gitconfig:ro
     - ~/.ssh:/home/vscode/.ssh:ro
-    - ~/.kube:/home/vscode/.kube:ro
   options:
-    # Environment variables for both providers
     env:
-      - name: KUBECONFIG
-        value: /home/vscode/.kube/config
-      # WSL2 specific setting to ensure proper terminal
       - name: TERM
         value: xterm-256color
